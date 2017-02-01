@@ -1,5 +1,7 @@
 # Typed Theon
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/effervescentia/typed-theon.svg)](https://greenkeeper.io/)
+
 [![CircleCI](https://circleci.com/gh/effervescentia/typed-theon.svg?style=svg)](https://circleci.com/gh/effervescentia/typed-theon)
 
 
