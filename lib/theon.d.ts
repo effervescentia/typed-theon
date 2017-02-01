@@ -1,6 +1,4 @@
 declare namespace theon {
-  export const VERSION: string;
-
   interface MidwarePool { }
 
   class Request extends Base {
@@ -321,7 +319,7 @@ declare namespace theon {
     }
   }
 
-  export class Response {
+  class Response {
     req: Request & { opts: any; body: any; };
     store?: Store;
     client?: entities.Client;
@@ -861,39 +859,6 @@ declare namespace theon {
     runMiddleware(entity: string, req: Request, res: Response, next: Request.Next): void;
   }
 
-  /**
-   * API to manage HTTP agents adapters.
-   */
-  export const agents: {
-    /**
-     * Map of agents by name and adapter function.
-     */
-    agents: { [name: string]: Function };
-    /**
-     * Retrieve the default HTTP agent adapter bases on the runtime environment.
-     * @return {Function} [description]
-     */
-    defaults(): Function;
-    /**
-     * Retrieve an HTTP agent adapter by name.
-     * @param  {string}   name [description]
-     * @return {Function}      [description]
-     */
-    get(name: string): Function;
-    /**
-     * Register a new HTTP agent adapter by name.
-     * @param {string}   name  [description]
-     * @param {Function} agent [description]
-     */
-    add(name: string, agent: Function): void;
-    /**
-     * Set an HTTP agent to be used by default. All the HTTP traffic will be handled by this agent.
-     * @param {Function} agent [description]
-     */
-    set(agent: Function): void;
-    remove(name: string): void;
-  };
-
   namespace engine {
     class Client extends Base {
       doRequest(ctx: Context, cb: Function): any;
@@ -953,11 +918,11 @@ declare namespace theon {
 
       /**
        * Attaches a child resource to the current entity.
-       * @param  {string       | Entity.Resource} resource [description]
+       * @param  {string       | Entity.Entity} resource [description]
        * @return {Entity.Resource}   [description]
        */
-      action(resource: string | Resource): Resource;
-      resource(resource: string | Resource): Resource;
+      action(resource: string | Entity): Resource;
+      resource(resource: string | Entity): Resource;
 
       /**
        * Attaches a child mixin to the current entity.
@@ -1058,12 +1023,40 @@ declare namespace theon {
 }
 
 declare interface theon {
+  VERSION: string;
+
   /**
-   * Creates a new Theon API client
-   * @param  {string}                url [description]
-   * @return {theon.entities.Client}     [description]
+   * API to manage HTTP agents adapters.
    */
-  (url?: string): theon.entities.Client;
+  agents: {
+    /**
+     * Map of agents by name and adapter function.
+     */
+    agents: { [name: string]: Function };
+    /**
+     * Retrieve the default HTTP agent adapter bases on the runtime environment.
+     * @return {Function} [description]
+     */
+    defaults(): Function;
+    /**
+     * Retrieve an HTTP agent adapter by name.
+     * @param  {string}   name [description]
+     * @return {Function}      [description]
+     */
+    get(name: string): Function;
+    /**
+     * Register a new HTTP agent adapter by name.
+     * @param {string}   name  [description]
+     * @param {Function} agent [description]
+     */
+    add(name: string, agent: Function): void;
+    /**
+     * Set an HTTP agent to be used by default. All the HTTP traffic will be handled by this agent.
+     * @param {Function} agent [description]
+     */
+    set(agent: Function): void;
+    remove(name: string): void;
+  };
 
   /**
    * Creates a new client entity
@@ -1093,5 +1086,12 @@ declare interface theon {
    */
   mixin(name: string): theon.entities.Mixin;
 }
+
+/**
+ * Creates a new Theon API client
+ * @param  {string}                url [description]
+ * @return {theon.entities.Client}     [description]
+ */
+declare function theon(url?: string): theon.entities.Client;
 
 export = theon;
